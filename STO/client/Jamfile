@@ -1,0 +1,4 @@
+project STO/client ;
+
+exe stoclient : [ glob-tree *.cpp ] : <source>/STO/shared//stoshared ;
+install dist : stoclient : <location>$(DIST) <dll-path>. <hardcode-dll-paths>true ;

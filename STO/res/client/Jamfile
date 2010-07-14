@@ -1,0 +1,3 @@
+project STOEnv_client ;
+
+install clientenv : [ glob-tree *.* : .svn ] : <location>$(DIST)/client <install-dependencies>off <install-source-root>. ;

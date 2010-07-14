@@ -1,0 +1,8 @@
+project SpaceTacticsOnline/STO ;
+
+path-constant DIST : dist ; 
+
+build-project res ;
+build-project shared ;
+build-project client ;
+build-project server ;

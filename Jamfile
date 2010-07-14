@@ -1,0 +1,7 @@
+project SpaceTacticsOnline
+	: requirements <include>. <source>/site-config//boost <library>/MattGameEngine/MGE//mge
+	: build-dir build
+	;
+
+build-project STO ;
+build-project STOEdit ;

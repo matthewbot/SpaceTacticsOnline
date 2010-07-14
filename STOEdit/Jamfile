@@ -1,0 +1,8 @@
+project STOEdit ;
+
+path-constant DIST : dist ; 
+	
+install env : [ glob env/* : env/.svn ] : <location>$(DIST) ;
+	
+exe stoedit : [ glob-tree *.cpp ] ;
+install dist : stoedit : <location>$(DIST) ;

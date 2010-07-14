@@ -1,0 +1,4 @@
+project STO/shared ;
+
+lib stoshared : [ glob-tree *.cpp ] : <link>static ;
+install dist : stoshared : <location>$(DIST) ;

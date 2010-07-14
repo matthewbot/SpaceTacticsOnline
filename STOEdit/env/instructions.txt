@@ -1,0 +1,31 @@
+Views:
+1 - Color
+2 - Depth
+3 - Normal
+4 - Game
+
+View controls:
+Scroll - Zoom
+Right drag - Pan
+Double right click - Reset
+
+Counter:
+Left click - set counter to pixel
+Middle click - copy counter from pixel
+Alt + Scroll - adjust counter
+Alt + Shift + Scroll - adjust counter + 10
+
+Depth View:
+U - Raise all depth values by the counter
+D - Lower all depth values by the counter
+
+Normal View:
+Alt + F - Flip normal counter by 180
+M - Mirror normals and depths from left to right
+
+Game View:
+Tab - toggle rendering mode
+C - toggle color texture linear interpolation
+N - toggle normal texture linear interpolation
+Left click - set light angle
+Shift + Left click - set ship angle

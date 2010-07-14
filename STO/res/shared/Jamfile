@@ -1,0 +1,3 @@
+project STOEnv_shared ;
+
+install sharedenv : [ glob-tree *.* : .svn ] : <location>$(DIST)/shared <install-dependencies>off <install-source-root>. ;

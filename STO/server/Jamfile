@@ -1,0 +1,4 @@
+project SpaceTacticsOnline/STO/server ;
+
+exe stoserver : [ glob-tree *.cpp ] : <source>/STO/shared//stoshared ;
+install dist : stoserver : <location>$(DIST) <dll-path>. <hardcode-dll-paths>true ;
