@@ -10,17 +10,19 @@ SpriteData::SpriteData(TextureManager &texman) : color(texman), normal(texman) {
 SpriteData::~SpriteData() { }
 
 void SpriteData::openSet(const string &colorname) {
-	color.open(colorname);
+	string fullpath = "../../STO/res/client/spr/" + colorname;
+	color.open(fullpath);
 	try {
-		normal.open(makeNormalName(colorname));
+		normal.open(makeNormalName(fullpath));
 	} catch (Exception &ex) {
 		normal.clear(color.getWidth(), color.getHeight());
 	}
 }
 
 void SpriteData::saveSet(const string &colorname) {
-	color.save(colorname);
-	normal.save(makeNormalName(colorname));
+	string fullpath = "../../STO/res/client/spr/" + colorname;
+	color.save(fullpath);
+	normal.save(makeNormalName(fullpath));
 }
 
 string SpriteData::makeNormalName(const string &colorname) {
