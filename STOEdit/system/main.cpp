@@ -3,6 +3,7 @@
 #include <MGE/gfx/system/GraphicsSystemFactory.h>
 #include <MGE/res/system/ResourceSystemFactory.h>
 #include <MGE/util/Logger.h>
+#include <MGE/util/FrameRateLimiterFactory.h>
 #include "STOEditSystemFactory.h"
 #include <iostream>
 
@@ -22,6 +23,7 @@ int main(int argc, char *argv[]) {
 		builder.addFactory(100, new GraphicsSystemFactory(900, 600, false, "STOEdit"));
 		builder.addFactory(10, new ResourceSystemFactory(string("stoedit.res")));
 		builder.addFactory(0, new STOEditSystemFactory());
+		builder.addFactory(10000, new FrameRateLimiterFactory(100));
 		
 		kernel = builder.buildKernel(log);
   } catch (std::exception &ex) {
