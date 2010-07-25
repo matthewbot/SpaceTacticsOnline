@@ -13,6 +13,7 @@ using namespace std;
 ClientConnection::ClientConnection(ClientConnectionCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn) 
 : BaseConnection(callbacks), callbacks(callbacks) {
 	setConn(new PacketConnection(conn));
+	state = CONNECTING;
 }
 
 void ClientConnection::update() {

@@ -17,6 +17,7 @@ Packet *PacketConnection::receive() {
 void PacketConnection::send(const Packet &packet, int chan, Message::Type type) {
 	Blob blob(100);
 	pman.encode(packet, blob);
+	blob.flip();
 	
 	conn->sendMessage(Message(blob, chan, type));
 }
