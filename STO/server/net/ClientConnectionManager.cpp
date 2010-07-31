@@ -1,4 +1,4 @@
-#include "ClientConnectionList.h"
+#include "ClientConnectionManager.h"
 #include "ClientConnection.h"
 #include <STO/server/player/Player.h>
 #include <STO/server/player/PlayerList.h>
@@ -9,10 +9,10 @@ using namespace mge;
 using namespace boost;
 using namespace std;
 
-ClientConnectionList::ClientConnectionList(PlayerList &players, mge::NetworkSystem *net) : players(players), net(net) { }
-ClientConnectionList::~ClientConnectionList() { }
+ClientConnectionManager::ClientConnectionManager(PlayerList &players, mge::NetworkSystem *net) : players(players), net(net) { }
+ClientConnectionManager::~ClientConnectionManager() { }
 
-void ClientConnectionList::update() {
+void ClientConnectionManager::update() {
 	while (net->connectionAvailable()) {
 		boost::shared_ptr<ClientConnection> conn(new ClientConnection(*this, net->acceptConnection()));
 		connections.push_back(conn);
@@ -23,11 +23,11 @@ void ClientConnectionList::update() {
 	}
 }
 
-int ClientConnectionList::onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg) {
+int ClientConnectionManager::onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg) {
 	shared_ptr<Player> player = players.newPlayer(username, conn, players.findSmallestTeam());
 	return player->getID();
 }
 
-void ClientConnectionList::onError(BaseConnection *conn, const std::string &msg) { }
+void ClientConnectionManager::onError(BaseConnection *conn, const std::string &msg) { }
 
 

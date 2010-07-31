@@ -13,14 +13,14 @@ namespace sto {
 	class PlayerList;
 	class ClientConnection;
 
-	class ClientConnectionList : public ClientConnectionCallbacks {
+	class ClientConnectionManager : public ClientConnectionCallbacks {
 		typedef std::list<boost::shared_ptr<ClientConnection> > ConnectionList;
 	
 		public:
 			typedef ConnectionList::const_iterator ConnectionIterator;
 		
-			ClientConnectionList(PlayerList &players, mge::NetworkSystem *net);
-			~ClientConnectionList();
+			ClientConnectionManager(PlayerList &players, mge::NetworkSystem *net);
+			~ClientConnectionManager();
 			
 			void update();
 			

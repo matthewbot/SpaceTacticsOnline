@@ -2,7 +2,7 @@
 #define STO_SERVER_SERVERGAMESTATE_H
 
 #include <STO/server/player/PlayerList.h>
-#include <STO/server/net/ClientConnectionList.h>
+#include <STO/server/net/ClientConnectionManager.h>
 #include <STO/server/main/ServerStateSystems.h>
 #include <MGE/state/GameState.h>
 
@@ -16,7 +16,7 @@ namespace sto {
 		private:
 			ServerStateSystems systems;
 			PlayerList players;
-			ClientConnectionList connections;
+			ClientConnectionManager connections;
 	};
 }
 
