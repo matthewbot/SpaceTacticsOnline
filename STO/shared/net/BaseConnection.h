@@ -15,6 +15,8 @@ namespace sto {
 			enum State { ESTABLISHING, CONNECTING, CONNECTED, DISCONNECTED, ERROR };
 			inline State getState() { return state; }
 			inline const std::string &getErrorMsg() { return errmsg; }
+			inline int getPing() const { return conn->getPing(); }
+			inline std::string getIP() const { return conn->getIP(); }
 			
 			void disconnect();
 			

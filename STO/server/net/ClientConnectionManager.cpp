@@ -28,7 +28,7 @@ int ClientConnectionManager::onConnect(ClientConnection *conn, const std::string
 	shared_ptr<Team> team = players.findSmallestTeam();
 	shared_ptr<Player> player = players.newPlayer(username, conn, team);
 	
-	log->log("main", INFO) << "New player '" << username << "' joined team " << team->getName() << endl;
+	log->log("main", INFO) << "Connection from " << conn->getIP() << " joined as '" << username << "' on team '" << team->getName() << "'" << endl;
 	
 	return player->getID();
 }

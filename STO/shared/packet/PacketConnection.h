@@ -13,6 +13,8 @@ namespace sto {
 			PacketConnection(const boost::shared_ptr<mge::Connection> &conn);
 			
 			inline mge::Connection::State getState() const { return conn->getState(); }
+			inline int getPing() const { return conn->getPing(); }
+			inline std::string getIP() const { return conn->getIP(); }
 			
 			Packet *receive();
 			void send(const Packet &packet, int chan, mge::Message::Type type);
