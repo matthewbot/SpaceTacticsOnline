@@ -21,8 +21,6 @@ void PacketManager::addFactory(PacketFactory *factory) {
 	factories.push_back(factory);
 }
 
-#include <iostream>
-
 void PacketManager::encode(const Packet &packet, Blob &blob) const {
 	const type_info &packettype = typeid(packet);
 	FactoryList::const_iterator pos = find_if(factories.begin(), factories.end(), bind(&PacketFactory::isMatch, _1, ref(packet), cref(packettype)));
@@ -32,8 +30,6 @@ void PacketManager::encode(const Packet &packet, Blob &blob) const {
 		
 	blob.put((unsigned char)(*pos)->getID());
 	packet.pack(blob);
-	
-	cout << "Encoded blob:" << endl << blob << endl;
 }
 
 static bool check_id(PacketFactory *factory, int id) { return factory->getID() == id; }

@@ -12,9 +12,9 @@
 #include <MGE/res/Font.h>
 #include <MGE/res/Sprite.h>
 #include <MGE/net/NetworkSystem.h>
+#include <MGE/util/Logger.h>
 #include <cmath>
 #include <sstream>
-#include <iostream>
 
 using namespace sto;
 using namespace boost;
@@ -70,7 +70,7 @@ GameStateStatus ClientGameState::update() {
 }
 
 FlightInput ClientGameState::getInput() {
-    Display &disp = systems.gfx->getDisplay();
+	Display &disp = systems.gfx->getDisplay();
 
 	FlightInput finput;
 	finput.mousedir = atan2(input.getMouseY() - disp.getHeight()/2, input.getMouseX() - disp.getWidth()/2);
@@ -86,11 +86,11 @@ FlightInput ClientGameState::getInput() {
 }
 
 void ClientGameState::onConnect() {
-    cout << "Connected!" << endl;
+	systems.log->log("main", INFO) << "Connected to server" << endl;
 }
 
 void ClientGameState::onError(BaseConnection *conn, const string &error) {
-    cout << "Connection error: " << error << endl;
+	systems.log->log("main", INFO) << "Connection error: " << error << endl;
 }
 
 void ClientGameState::onCreateEntity(int id, const string &name, const Blob &data) {

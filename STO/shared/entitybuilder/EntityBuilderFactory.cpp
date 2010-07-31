@@ -5,7 +5,6 @@
 #include <MGE/res/system/ResourceSystem.h>
 #include <MGE/util/Exception.h>
 #include <memory>
-#include <iostream>
 
 using namespace sto;
 using namespace mge;
@@ -24,8 +23,6 @@ Resource *EntityBuilderFactory::makeResource(const string &name, const ResourceN
 
 	auto_ptr<EntityBuilder> builder(new EntityBuilder(name));
 	ResourceNode node = resolveInherit(basenode);
-	
-	cout << "After resolveInherit:" << endl << node << endl;
 
 	for (ResourceNode::const_iterator i = node.begin(); i != node.end(); ++i) {
 		if (i->first == "type" || i->first == "inherit")
