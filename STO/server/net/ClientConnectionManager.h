@@ -7,6 +7,7 @@
 
 namespace mge {
 	class NetworkSystem;
+	class Logger;
 }
 
 namespace sto {
@@ -19,7 +20,7 @@ namespace sto {
 		public:
 			typedef ConnectionList::const_iterator ConnectionIterator;
 		
-			ClientConnectionManager(PlayerList &players, mge::NetworkSystem *net);
+			ClientConnectionManager(PlayerList &players, mge::NetworkSystem *net, mge::Logger *log);
 			~ClientConnectionManager();
 			
 			void update();
@@ -35,6 +36,7 @@ namespace sto {
 		private:
 			PlayerList &players;
 			mge::NetworkSystem *net;
+			mge::Logger *log;
 		
 			ConnectionList connections;
 	};
