@@ -6,7 +6,10 @@ using namespace sto;
 using namespace mge;
 
 ServerGameState::ServerGameState(const ServerStateSystems &systems) 
-: systems(systems), players(), connections(players, systems.net) { 
+: systems(systems), players(), connections(players, systems.net) {
+	players.newTeam("Red", Color::RED);
+	players.newTeam("Blue", Color::BLUE);
+
 	systems.net->start(8723, 20, 0, 0, 30);
 }
 
