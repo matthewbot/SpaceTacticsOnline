@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 		builder.addFactory(9, new ResourceSystemFactory(initResourceSystem)); // the resource system, with our custom init function
 		builder.addFactory(-100, new NetworkSystemFactory());
 		builder.addFactory(0, new GameStateSystemFactory(new InitialSTOServerStateFactory<ServerGameState>())); // must be last
-		builder.addFactory(1000, new FrameRateLimiterFactory(100));
+		builder.addFactory(1000, new FrameRateLimiterFactory(200));
 		
 		kernel = builder.buildKernel(log);
 	} catch (std::exception &ex) {

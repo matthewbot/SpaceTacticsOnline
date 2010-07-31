@@ -16,6 +16,7 @@
 #include <MGE/state/GameStateSystemFactory.h>
 #include <MGE/util/Logger.h>
 #include <MGE/util/Exception.h>
+#include <MGE/util/FrameRateLimiterFactory.h>
 #include <iostream>
 
 using namespace sto;
@@ -34,10 +35,11 @@ int main(int argc, char *argv[]) {
 	try {
 		KernelBuilder builder;
 		builder.addFactory(10, new FileSystemFactory("JeffAndMatt", "STO", argv[0])); // get filesystem up because other things need pointers to it
-		builder.addFactory(100, new GraphicsSystemFactory(900, 600, true, "Space Tactics Online")); // then get graphics system ASAP so something can go on the screen (TODO: Loading screen or something)
+		builder.addFactory(100, new GraphicsSystemFactory(900, 600, false, "Space Tactics Online")); // then get graphics system ASAP so something can go on the screen (TODO: Loading screen or something)
 		builder.addFactory(8, new AudioSystemFactory()); // audio system needs to come before..
 		builder.addFactory(9, new ResourceSystemFactory(initResourceSystem)); // the resource system, with our custom init function
 		builder.addFactory(-100, new NetworkSystemFactory());
+		builder.addFactory(1000, new FrameRateLimiterFactory(200));
 		builder.addFactory(0, new GameStateSystemFactory(new InitialSTOClientStateFactory<ClientGameState>())); // must be last
 		
 		kernel = builder.buildKernel(log);
