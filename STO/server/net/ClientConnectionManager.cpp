@@ -24,13 +24,17 @@ void ClientConnectionManager::update() {
 	}
 }
 
-int ClientConnectionManager::onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg) {
+void ClientConnectionManager::onConnectRefused(ClientConnection *conn, const std::string &reason) {
+	log->log("main", INFO) << "Connection from " << conn->getIP() << " refused: " << reason << endl;
+}
+
+shared_ptr<Player> ClientConnectionManager::onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg) {
 	shared_ptr<Team> team = players.findSmallestTeam();
 	shared_ptr<Player> player = players.newPlayer(username, conn, team);
 	
 	log->log("main", INFO) << "Connection from " << conn->getIP() << " joined as '" << username << "' on team '" << team->getName() << "'" << endl;
 	
-	return player->getID();
+	return player;
 }
 
 void ClientConnectionManager::onError(BaseConnection *conn, const std::string &msg) {

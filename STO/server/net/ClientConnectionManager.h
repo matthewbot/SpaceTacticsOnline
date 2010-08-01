@@ -30,7 +30,8 @@ namespace sto {
 			
 			// ClientConnectionCallbacks
 			
-			virtual int onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg);
+			virtual void onConnectRefused(ClientConnection *conn, const std::string &reason);
+			virtual boost::shared_ptr<Player> onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg);
 			virtual void onError(BaseConnection *conn, const std::string &error);
 			
 		private:
