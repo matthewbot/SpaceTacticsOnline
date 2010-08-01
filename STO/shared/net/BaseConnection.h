@@ -11,6 +11,8 @@ namespace sto {
 		public:
 			BaseConnection(BaseConnectionCallbacks &callbacks);
 			inline ~BaseConnection() { disconnect(); }
+			
+			void update();
 		
 			enum State { ESTABLISHING, CONNECTING, CONNECTED, DISCONNECTED, ERROR };
 			inline State getState() { return state; }
@@ -23,6 +25,8 @@ namespace sto {
 			static std::string stateToString(State st);
 			
 		protected:
+			virtual void connectionEstablished();
+			virtual void processPacket(Packet *packet) = 0;
 			void setError(const std::string &msg);
 			inline PacketConnection &getConn() { return *conn; }
 			inline bool hasConn() { return conn.get(); }

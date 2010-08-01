@@ -20,49 +20,34 @@ ClientConnection::ClientConnection(ClientConnectionCallbacks &callbacks, const b
 	state = CONNECTING;
 }
 
-void ClientConnection::update() {
-	if (!hasConn())
-		return;
-
-	if (getConn().getState() == Connection::TIMEOUT) {
-		setError("Connection timeout");
-		return;
-	}
-	
-	while (true) {
-		scoped_ptr<Packet> pack(getConn().receive());
-		
-		if (!pack)
+void ClientConnection::processPacket(Packet *pack) {
+	switch (getConn().getState()) {
+		case CONNECTING:
+			if (ConnectPacket *connpack = dynamic_cast<ConnectPacket *>(pack)) {
+				string refuse_reason;
+				if (connpack->getVersion() != STO_VERSION_STRING)
+					refuse_reason = "Invalid client version '" + connpack->getVersion() + "'";
+				if (connpack->getAuthmsg() != STO_AUTHORIZE_MESSAGE)
+					refuse_reason = "Bad authorization message '" + connpack->getAuthmsg() + "'";
+					
+				if (refuse_reason.size() == 0) {
+					player = callbacks.onConnect(this, connpack->getVersion(), connpack->getUsername(), connpack->getAuthmsg());
+					getConn().send(PlayerIDPacket(player->getID()), 1, Message::RELIABLE);
+					state = CONNECTED;
+				} else {
+					callbacks.onConnectRefused(this, refuse_reason);
+					getConn().send(ConnectRefusedPacket(refuse_reason), 1, Message::RELIABLE);
+					setError("Connection refused");
+				}
+			}
+			break;	
+			
+		case CONNECTED:
+			if (FlightInputPacket *flightpack = dynamic_cast<FlightInputPacket *>(pack)) {
+				latestinput = flightpack->getFlightInput();
+			}
+		default:
 			break;
-		
-		switch (state) {
-			case CONNECTING:
-				if (ConnectPacket *connpack = dynamic_cast<ConnectPacket *>(pack.get())) {
-					string refuse_reason;
-					if (connpack->getVersion() != STO_VERSION_STRING)
-						refuse_reason = "Invalid client version '" + connpack->getVersion() + "'";
-					if (connpack->getAuthmsg() != STO_AUTHORIZE_MESSAGE)
-						refuse_reason = "Bad authorization message '" + connpack->getAuthmsg() + "'";
-						
-					if (refuse_reason.size() == 0) {
-						player = callbacks.onConnect(this, connpack->getVersion(), connpack->getUsername(), connpack->getAuthmsg());
-						getConn().send(PlayerIDPacket(player->getID()), 1, Message::RELIABLE);
-						state = CONNECTED;
-					} else {
-						callbacks.onConnectRefused(this, refuse_reason);
-						getConn().send(ConnectRefusedPacket(refuse_reason), 1, Message::RELIABLE);
-						setError("Connection refused");
-					}
-				}
-				break;	
-				
-			case CONNECTED:
-				if (FlightInputPacket *flightpack = dynamic_cast<FlightInputPacket *>(pack.get())) {
-					latestinput = flightpack->getFlightInput();
-				}
-			default:
-				break;
-		}
 	}
 }
 

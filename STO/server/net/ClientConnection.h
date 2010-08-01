@@ -12,7 +12,6 @@ namespace sto {
 		public:
 			ClientConnection(ClientConnectionCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn);
 			
-			void update();
 			inline const boost::shared_ptr<Player> &getPlayer() { return player; }
 			
 			// PlayerController
@@ -20,6 +19,8 @@ namespace sto {
 			virtual void sendChatMessage(const Player &from, const std::string &msg);
 		    virtual FlightInput getFlightInput();
 			
+		protected:
+			virtual void processPacket(Packet *packet);
 		private:
 			ClientConnectionCallbacks &callbacks;
 			FlightInput latestinput;

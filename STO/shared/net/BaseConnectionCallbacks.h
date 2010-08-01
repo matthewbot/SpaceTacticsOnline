@@ -10,6 +10,7 @@ namespace sto {
 		public:
 			inline virtual ~BaseConnectionCallbacks() { }
 			virtual void onError(BaseConnection *conn, const std::string &error) = 0;
+			virtual void onDisconnect(BaseConnection *conn) = 0;
 	};
 }
 

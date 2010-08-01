@@ -93,6 +93,10 @@ void ClientGameState::onError(BaseConnection *conn, const string &error) {
 	systems.log->log("main", INFO) << "Connection error: " << error << endl;
 }
 
+void ClientGameState::onDisconnect(BaseConnection *conn) {
+	systems.log->log("main", INFO) << "Disconnected from server" << endl;
+}
+
 void ClientGameState::onCreateEntity(int id, const string &name, const Blob &data) {
 	std::pair<Entity *, ComponentMap> result = systems.res->get<EntityBuilder>(name)->makeEntity(entities.getSystemMap());
 	
