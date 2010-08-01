@@ -4,28 +4,44 @@
 #include <STO/server/player/PlayerList.h>
 #include <MGE/net/NetworkSystem.h>
 #include <MGE/util/Logger.h>
+#include <boost/lambda/lambda.hpp>
+#include <boost/lambda/bind.hpp>
+#include <algorithm>
 
 using namespace sto;
 using namespace mge;
 using namespace boost;
+using namespace boost::lambda;
 using namespace std;
 
 ClientConnectionManager::ClientConnectionManager(PlayerList &players, NetworkSystem *net, Logger *log) : players(players), net(net), log(log) { }
 ClientConnectionManager::~ClientConnectionManager() { }
 
 void ClientConnectionManager::update() {
+	// accept new connections
 	while (net->connectionAvailable()) {
 		boost::shared_ptr<ClientConnection> conn(new ClientConnection(*this, net->acceptConnection()));
 		connections.push_back(conn);
 	}
 	
+	// update existing ones
 	for (ConnectionList::iterator i = connections.begin(); i != connections.end(); ++i) {
 		(*i)->update();
 	}
+	
+	// remove those queued for removal
+	for (vector<ClientConnection *>::iterator i = connections_remove.begin(); i != connections_remove.end(); ++i) {
+		ConnectionList::iterator pos = find_if(connections.begin(), connections.end(), bind(&boost::shared_ptr<ClientConnection>::get, _1) == *i);
+		assert(pos != connections.end());
+		connections.erase(pos);
+	}
+	
+	connections_remove.clear();
 }
 
 void ClientConnectionManager::onConnectRefused(ClientConnection *conn, const std::string &reason) {
 	log->log("main", INFO) << "Connection from " << conn->getIP() << " refused: " << reason << endl;
+	removeLater(conn);
 }
 
 shared_ptr<Player> ClientConnectionManager::onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg) {
@@ -37,7 +53,14 @@ shared_ptr<Player> ClientConnectionManager::onConnect(ClientConnection *conn, co
 	return player;
 }
 
-void ClientConnectionManager::onError(BaseConnection *conn, const std::string &msg) {
+void ClientConnectionManager::onError(BaseConnection *bconn, const std::string &msg) {
+	ClientConnection *conn = static_cast<ClientConnection *>(bconn);
 	log->log("main", INFO) << "Connection error: " << msg << endl;
+	removeLater(conn);
 }
+
+void ClientConnectionManager::removeLater(ClientConnection *conn) {
+	connections_remove.push_back(conn);
+}
+
 

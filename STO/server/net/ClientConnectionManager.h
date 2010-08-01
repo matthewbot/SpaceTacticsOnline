@@ -4,6 +4,7 @@
 #include "ClientConnectionCallbacks.h"
 #include <boost/shared_ptr.hpp>
 #include <list>
+#include <vector>
 
 namespace mge {
 	class NetworkSystem;
@@ -35,11 +36,14 @@ namespace sto {
 			virtual void onError(BaseConnection *conn, const std::string &error);
 			
 		private:
+			void removeLater(ClientConnection *conn);
+		
 			PlayerList &players;
 			mge::NetworkSystem *net;
 			mge::Logger *log;
 		
 			ConnectionList connections;
+			std::vector<ClientConnection *> connections_remove;
 	};
 }
 
