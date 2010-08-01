@@ -17,6 +17,9 @@ ClientConnection::ClientConnection(ClientConnectionCallbacks &callbacks, const b
 }
 
 void ClientConnection::update() {
+	if (!hasConn())
+		return;
+
 	if (getConn().getState() == Connection::TIMEOUT) {
 		setError("Connection timeout");
 		return;
