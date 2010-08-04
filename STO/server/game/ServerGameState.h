@@ -4,9 +4,14 @@
 #include <STO/server/player/PlayerList.h>
 #include <STO/server/net/ClientConnectionManager.h>
 #include <STO/server/main/ServerStateSystems.h>
+#include <STO/shared/entity/EntityContainer.h>
 #include <MGE/state/GameState.h>
+#include <boost/smart_ptr.hpp>
 
 namespace sto {
+	class SerializeComponent;
+	class FlightInputComponent;
+
 	class ServerGameState : public mge::GameState {
 		public:
 			ServerGameState(const ServerStateSystems &systems);

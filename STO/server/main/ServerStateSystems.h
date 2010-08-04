@@ -5,6 +5,7 @@ namespace mge {
 	class ResourceSystem;
 	class NetworkSystem;
 	class Logger;
+	class FrameRateLimiter;
 }
 
 namespace sto {
@@ -12,6 +13,7 @@ namespace sto {
 		mge::ResourceSystem *res;
 		mge::NetworkSystem *net;
 		mge::Logger *log;
+		mge::FrameRateLimiter *fps;
 	};
 }
 

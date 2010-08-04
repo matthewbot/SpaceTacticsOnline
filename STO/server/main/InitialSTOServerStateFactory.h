@@ -22,6 +22,10 @@ namespace sto {
 				assert(i != systems.end());
 				serversystems.net = (mge::NetworkSystem *)i->second;
 				
+				i = systems.find("FrameRateLimiter");
+				assert(i != systems.end());
+				serversystems.fps = (mge::FrameRateLimiter *)i->second;
+				
 				serversystems.log = &log;
 				
 				return new ServerStateT(serversystems);
