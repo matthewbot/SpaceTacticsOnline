@@ -5,8 +5,11 @@
 #include <STO/shared/packet/ConnectRefusedPacket.h>
 #include <STO/shared/packet/PlayerIDPacket.h>
 #include <STO/shared/packet/FlightInputPacket.h>
+#include <STO/shared/packet/EntityCreatePacket.h>
+#include <STO/shared/packet/EntityUpdatePacket.h>
 #include <STO/version.h>
 #include <MGE/net/Connection.h>
+#include <MGE/util/Blob.h>
 #include <boost/scoped_ptr.hpp>
 
 using namespace sto;
@@ -18,6 +21,14 @@ ClientConnection::ClientConnection(ClientConnectionCallbacks &callbacks, const b
 : BaseConnection(callbacks), callbacks(callbacks) {
 	setConn(new PacketConnection(conn));
 	state = CONNECTING;
+}
+
+void ClientConnection::sendEntityCreate(int id, const std::string &entityname, const mge::Blob &update) {
+	getConn().send(EntityCreatePacket(id, entityname, update), 1, Message::RELIABLE);
+}
+
+void ClientConnection::sendEntityUpdate(int id, bool full, bool remove, const mge::Blob &update) {
+	getConn().send(EntityUpdatePacket(id, full, remove, update), 2, Message::NORMAL);
 }
 
 void ClientConnection::processPacket(Packet *pack) {

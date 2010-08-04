@@ -5,6 +5,10 @@
 #include <STO/shared/net/BaseConnection.h>
 #include <boost/smart_ptr.hpp>
 
+namespace mge {
+	class Blob;
+}
+
 namespace sto {
 	class ClientConnectionCallbacks;
 
@@ -13,6 +17,9 @@ namespace sto {
 			ClientConnection(ClientConnectionCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn);
 			
 			inline const boost::shared_ptr<Player> &getPlayer() { return player; }
+			
+			void sendEntityCreate(int id, const std::string &entityname, const mge::Blob &blob);
+			void sendEntityUpdate(int id, bool full, bool remove, const mge::Blob &update);
 			
 			// PlayerController
 		

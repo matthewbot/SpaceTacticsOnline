@@ -17,6 +17,17 @@ using namespace std;
 ClientConnectionManager::ClientConnectionManager(PlayerList &players, NetworkSystem *net, Logger *log) : players(players), net(net), log(log) { }
 ClientConnectionManager::~ClientConnectionManager() { }
 
+void ClientConnectionManager::broadcastEntityCreate(int id, const std::string &entityname, const mge::Blob &blob, ClientConnection *exclude) {
+	for (ConnectionList::iterator i = connections.begin(); i != connections.end(); ++i)
+		if (i->get() != exclude)
+			(*i)->sendEntityCreate(id, entityname, blob);
+}
+
+void ClientConnectionManager::broadcastEntityUpdate(int id, bool full, bool remove, const mge::Blob &update) {
+	for (ConnectionList::iterator i = connections.begin(); i != connections.end(); ++i)
+		(*i)->sendEntityUpdate(id, full, remove, update);
+}
+
 void ClientConnectionManager::update() {
 	// accept new connections
 	while (net->connectionAvailable()) {
