@@ -4,12 +4,15 @@ using namespace sto;
 using namespace mge;
 using namespace std;
 
-PlayerList::PlayerList() : nextplayerid(1), nextteamid(1) { }
+PlayerList::PlayerList(PlayerListCallbacks &callbacks) : callbacks(callbacks), nextplayerid(1), nextteamid(1) { }
 
 PlayerList::PlayerPtr PlayerList::newPlayer(const string &name, PlayerController *controller, const TeamPtr &team) {
 	PlayerPtr player(new Player(nextplayerid++, name, controller));
 	players.insert(player);
 	teammap[team].insert(player);
+	
+	callbacks.playerJoined(player);
+	
 	return player;
 }
 

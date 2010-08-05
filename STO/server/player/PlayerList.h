@@ -10,9 +10,15 @@
 #include <utility>
 
 namespace sto {
+	class PlayerListCallbacks {
+		public:
+			virtual void playerJoined(const boost::shared_ptr<Player> &player) = 0;
+			virtual void playerLeft(const boost::shared_ptr<Player> &player) = 0;
+	};
+
 	class PlayerList {
 		public:
-			typedef boost::shared_ptr<Player> PlayerPtr;
+			typedef boost::shared_ptr<Player> PlayerPtr; // TODO make private
 			typedef boost::shared_ptr<Team> TeamPtr;
 			
 		private:
@@ -30,7 +36,7 @@ namespace sto {
 			typedef PlayerSet::const_iterator PlayerIterator;
 			typedef TeamSet::const_iterator TeamIterator;
 		
-			PlayerList();
+			PlayerList(PlayerListCallbacks &callbacks);
 		
 			PlayerPtr newPlayer(const std::string &name, PlayerController *controller, const TeamPtr &team);
 			TeamPtr newTeam(const std::string &name, const mge::Color &color);
@@ -47,6 +53,7 @@ namespace sto {
 			TeamPtr findSmallestTeam() const;
 			
 		private:
+			PlayerListCallbacks &callbacks;
 			PlayerSet players;	
 			TeamSet teams;
 			TeamMap teammap;

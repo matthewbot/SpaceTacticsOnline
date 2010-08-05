@@ -7,14 +7,23 @@
 #include <STO/shared/entity/EntityContainer.h>
 #include <MGE/state/GameState.h>
 #include <boost/smart_ptr.hpp>
+#include <map>
+#include <string>
 
 namespace sto {
 	class SerializeComponent;
 	class FlightInputComponent;
 
-	class ServerGameState : public mge::GameState {
+	class ServerGameState : public mge::GameState, public PlayerListCallbacks {
 		public:
 			ServerGameState(const ServerStateSystems &systems);
+			
+			// PlayerListCallbacks
+			
+			virtual void playerJoined(const boost::shared_ptr<Player> &player);
+			virtual void playerLeft(const boost::shared_ptr<Player> &player);
+			
+			void spawnPlayerEntity(const std::string &buildername, const boost::shared_ptr<Player> &player);
 			
 			virtual mge::GameStateStatus update();
 			
@@ -22,6 +31,13 @@ namespace sto {
 			ServerStateSystems systems;
 			PlayerList players;
 			ClientConnectionManager connections;
+			
+			EntityContainer entities;
+			typedef std::map<int, boost::weak_ptr<SerializeComponent> > SerializeEntityMap;
+			SerializeEntityMap serialize_entities;
+			typedef std::map<int, boost::weak_ptr<FlightInputComponent> > PlayerInputMap;
+			PlayerInputMap flightinput_entities;
+			int nextid;
 	};
 }
 
