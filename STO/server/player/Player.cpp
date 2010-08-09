@@ -4,8 +4,6 @@
 using namespace sto;
 using namespace std;
 
-Player::Player(int id, const string &name, PlayerController *controller)
-: id(id), name(name), controller(controller) { }
-
-Player::~Player() { }
+Player::Player(int id, const string &name)
+: id(id), name(name) { }
 

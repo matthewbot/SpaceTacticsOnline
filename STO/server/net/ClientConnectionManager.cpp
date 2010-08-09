@@ -14,7 +14,8 @@ using namespace boost;
 using namespace boost::lambda;
 using namespace std;
 
-ClientConnectionManager::ClientConnectionManager(PlayerList &players, NetworkSystem *net, Logger *log) : players(players), net(net), log(log) { }
+ClientConnectionManager::ClientConnectionManager(PlayerList &players, NetworkSystem *net, Logger *log)
+: players(players), net(net), log(log), nextplayerid(1) { }
 ClientConnectionManager::~ClientConnectionManager() { }
 
 void ClientConnectionManager::broadcastEntityCreate(int id, const std::string &entityname, const mge::Blob &blob, ClientConnection *exclude) {
@@ -57,7 +58,7 @@ void ClientConnectionManager::onConnectRefused(ClientConnection *conn, const std
 
 shared_ptr<Player> ClientConnectionManager::onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg) {
 	shared_ptr<Team> team = players.findSmallestTeam();
-	shared_ptr<Player> player = players.newPlayer(username, conn, team);
+	shared_ptr<Player> player = players.newPlayer(nextplayerid++, username, team);
 	
 	log->log("main", INFO) << "Connection from " << conn->getIP() << " joined as '" << username << "' on team '" << team->getName() << "'" << endl;
 	

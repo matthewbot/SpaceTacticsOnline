@@ -6,22 +6,17 @@
 #include <string>
 
 namespace sto {
-	class PlayerController;
-
 	class Player : boost::noncopyable {
 		public:
 			typedef int ID;
-			Player(ID id, const std::string &name, PlayerController *controller);
-			~Player();
+			Player(ID id, const std::string &name);
 			
 			inline ID getID() const { return id; }
 			inline const std::string &getName() const { return name; }
-			inline PlayerController &getController() const { return *controller; }
 			
 		private:
 			const ID id;
 			std::string name;
-			PlayerController *controller;
 	};
 }
 

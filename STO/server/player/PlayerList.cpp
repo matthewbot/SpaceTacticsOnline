@@ -4,32 +4,33 @@ using namespace sto;
 using namespace mge;
 using namespace std;
 
-PlayerList::PlayerList(PlayerListCallbacks &callbacks) : callbacks(callbacks), nextplayerid(1), nextteamid(1) { }
+PlayerList::PlayerList(PlayerListCallbacks &callbacks) : callbacks(callbacks) { }
 
-PlayerList::PlayerPtr PlayerList::newPlayer(const string &name, PlayerController *controller, const TeamPtr &team) {
-	PlayerPtr player(new Player(nextplayerid++, name, controller));
+PlayerList::PlayerPtr PlayerList::newPlayer(Player::ID id, const string &name, const TeamPtr &team) {
+	PlayerPtr player(new Player(id, name));
 	players.insert(player);
-	teammap[team].insert(player);
+	teamplayersmap[team].insert(player);
+	playerteammap.insert(make_pair(player, team));
 	
 	callbacks.playerJoined(player);
 	
 	return player;
 }
 
-PlayerList::TeamPtr PlayerList::newTeam(const string &name, const Color &color) {
-	TeamPtr team(new Team(nextteamid++, name, color));
+PlayerList::TeamPtr PlayerList::newTeam(Team::ID id, const string &name, const Color &color) {
+	TeamPtr team(new Team(id++, name, color));
 	teams.insert(team);
-	teammap.insert(make_pair(team, PlayerSet()));
+	teamplayersmap.insert(make_pair(team, PlayerSet()));
 	return team;
 }
 
-std::pair<PlayerList::PlayerIterator, PlayerList::PlayerIterator> PlayerList::getPlayersByTeam(TeamPtr team) const {
-	TeamMap::const_iterator i = teammap.find(team);
+std::pair<PlayerList::PlayerIterator, PlayerList::PlayerIterator> PlayerList::getPlayersByTeam(const boost::shared_ptr<Team> &team) const {
+	TeamPlayersMap::const_iterator i = teamplayersmap.find(team);
 	return make_pair(i->second.begin(), i->second.end());
 }
 
-int PlayerList::getPlayerCountByTeam(TeamPtr team) const {
-	TeamMap::const_iterator i = teammap.find(team);
+int PlayerList::getPlayerCountByTeam(const boost::shared_ptr<Team> &team) const {
+	TeamPlayersMap::const_iterator i = teamplayersmap.find(team);
 	return i->second.size();
 }
 
@@ -37,7 +38,7 @@ PlayerList::TeamPtr PlayerList::findSmallestTeam() const {
 	TeamPtr smallest;
 	int smallestsize = -1;
 	
-	for (TeamMap::const_iterator i = teammap.begin(); i != teammap.end(); ++i) {
+	for (TeamPlayersMap::const_iterator i = teamplayersmap.begin(); i != teamplayersmap.end(); ++i) {
 		int size = i->second.size();
 		
 		if (smallestsize < size) {
@@ -48,4 +49,10 @@ PlayerList::TeamPtr PlayerList::findSmallestTeam() const {
 	
 	return smallest;
 }
+
+boost::shared_ptr<Team> PlayerList::getPlayersTeam(const boost::shared_ptr<Player> &player) const {
+	PlayerTeamMap::const_iterator i = playerteammap.find(player);
+	return i->second;
+}
+
 

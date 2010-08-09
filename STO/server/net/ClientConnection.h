@@ -12,7 +12,7 @@ namespace mge {
 namespace sto {
 	class ClientConnectionCallbacks;
 
-	class ClientConnection : public BaseConnection, public PlayerController {
+	class ClientConnection : public BaseConnection {
 		public:
 			ClientConnection(ClientConnectionCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn);
 			

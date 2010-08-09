@@ -17,8 +17,8 @@ using namespace std;
 
 ServerGameState::ServerGameState(const ServerStateSystems &systems) 
 : systems(systems), players(*this), connections(players, systems.net, systems.log), nextid(1) {
-	players.newTeam("Red", Color::RED);
-	players.newTeam("Blue", Color::BLUE);
+	players.newTeam(1, "Red", Color::RED);
+	players.newTeam(2, "Blue", Color::BLUE);
 	
 	entities.addSystem("motion", shared_ptr<EntityComponentSystem>(new TickComponentSystem(*systems.fps)));
 

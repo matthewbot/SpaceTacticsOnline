@@ -49,6 +49,7 @@ namespace sto {
 		
 			ConnectionList connections;
 			std::vector<ClientConnection *> connections_remove;
+			int nextplayerid;
 	};
 }
 
