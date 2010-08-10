@@ -1,6 +1,6 @@
 #include "ClientConnection.h"
 #include "ClientConnectionCallbacks.h"
-#include <STO/server/player/Player.h>
+#include <STO/shared/player/Player.h>
 #include <STO/shared/packet/ConnectPacket.h>
 #include <STO/shared/packet/ConnectRefusedPacket.h>
 #include <STO/shared/packet/PlayerIDPacket.h>

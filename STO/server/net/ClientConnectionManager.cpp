@@ -1,7 +1,7 @@
 #include "ClientConnectionManager.h"
 #include "ClientConnection.h"
-#include <STO/server/player/Player.h>
-#include <STO/server/player/PlayerList.h>
+#include <STO/shared/player/Player.h>
+#include <STO/shared/player/PlayerList.h>
 #include <MGE/net/NetworkSystem.h>
 #include <MGE/util/Logger.h>
 #include <boost/lambda/lambda.hpp>

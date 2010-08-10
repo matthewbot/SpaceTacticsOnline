@@ -1,7 +1,7 @@
 #ifndef STO_SERVER_CLIENTCONNECTION_H
 #define STO_SERVER_CLIENTCONNECTION_H
 
-#include <STO/server/player/PlayerController.h>
+#include <STO/shared/input/FlightInput.h>
 #include <STO/shared/net/BaseConnection.h>
 #include <boost/smart_ptr.hpp>
 
@@ -10,6 +10,7 @@ namespace mge {
 }
 
 namespace sto {
+	class Player;
 	class ClientConnectionCallbacks;
 
 	class ClientConnection : public BaseConnection {

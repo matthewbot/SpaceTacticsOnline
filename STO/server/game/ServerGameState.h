@@ -1,10 +1,10 @@
 #ifndef STO_SERVER_SERVERGAMESTATE_H
 #define STO_SERVER_SERVERGAMESTATE_H
 
-#include <STO/server/player/PlayerList.h>
 #include <STO/server/net/ClientConnectionManager.h>
 #include <STO/server/main/ServerStateSystems.h>
 #include <STO/shared/entity/EntityContainer.h>
+#include <STO/shared/player/PlayerList.h>
 #include <MGE/state/GameState.h>
 #include <boost/smart_ptr.hpp>
 #include <map>
