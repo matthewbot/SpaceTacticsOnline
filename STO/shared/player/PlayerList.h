@@ -10,12 +10,6 @@
 #include <utility>
 
 namespace sto {
-	class PlayerListCallbacks { // TODO can probably be moved to ClientConnectionManagerCallbacks
-		public:
-			virtual void playerJoined(const boost::shared_ptr<Player> &player) = 0;
-			virtual void playerLeft(const boost::shared_ptr<Player> &player) = 0;
-	};
-
 	class PlayerList {
 			typedef boost::shared_ptr<Player> PlayerPtr;
 			typedef boost::shared_ptr<Team> TeamPtr;
@@ -35,7 +29,7 @@ namespace sto {
 			typedef PlayerSet::const_iterator PlayerIterator;
 			typedef TeamSet::const_iterator TeamIterator;
 		
-			PlayerList(PlayerListCallbacks &callbacks);
+			PlayerList();
 		
 			boost::shared_ptr<Player> newPlayer(Player::ID id, const std::string &name, const TeamPtr &team);
 			boost::shared_ptr<Team> newTeam(Team::ID id, const std::string &name, const mge::Color &color);
@@ -54,7 +48,6 @@ namespace sto {
 			boost::shared_ptr<Team> findSmallestTeam() const;
 			
 		private:
-			PlayerListCallbacks &callbacks;
 			PlayerSet players;	
 			TeamSet teams;
 			TeamPlayersMap teamplayersmap;

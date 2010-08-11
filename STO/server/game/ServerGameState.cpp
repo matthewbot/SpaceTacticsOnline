@@ -16,7 +16,7 @@ using namespace boost;
 using namespace std;
 
 ServerGameState::ServerGameState(const ServerStateSystems &systems) 
-: systems(systems), players(*this), connections(players, systems.net, systems.log), nextid(1) {
+: systems(systems), players(), connections(players, systems.net, systems.log), nextid(1) {
 	players.newTeam(1, "Red", Color::RED);
 	players.newTeam(2, "Blue", Color::BLUE);
 	
@@ -42,14 +42,6 @@ void ServerGameState::spawnPlayerEntity(const string &entityname, const boost::s
 	serialcomp->serialize(update, true);
 	update.flip();
 	connections.broadcastEntityCreate(id, entityname, update);
-}
-
-void ServerGameState::playerJoined(const boost::shared_ptr<Player> &player) {
-	spawnPlayerEntity("ent_scout", player);
-}
-
-void ServerGameState::playerLeft(const boost::shared_ptr<Player> &player) {
-
 }
 
 GameStateStatus ServerGameState::update() {

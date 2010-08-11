@@ -14,14 +14,9 @@ namespace sto {
 	class SerializeComponent;
 	class FlightInputComponent;
 
-	class ServerGameState : public mge::GameState, public PlayerListCallbacks {
+	class ServerGameState : public mge::GameState {
 		public:
 			ServerGameState(const ServerStateSystems &systems);
-			
-			// PlayerListCallbacks
-			
-			virtual void playerJoined(const boost::shared_ptr<Player> &player);
-			virtual void playerLeft(const boost::shared_ptr<Player> &player);
 			
 			void spawnPlayerEntity(const std::string &buildername, const boost::shared_ptr<Player> &player);
 			
