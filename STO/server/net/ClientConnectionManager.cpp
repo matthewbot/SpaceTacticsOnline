@@ -18,10 +18,9 @@ ClientConnectionManager::ClientConnectionManager(PlayerList &players, NetworkSys
 : players(players), net(net), log(log), nextplayerid(1) { }
 ClientConnectionManager::~ClientConnectionManager() { }
 
-void ClientConnectionManager::broadcastEntityCreate(int id, const std::string &entityname, const mge::Blob &blob, ClientConnection *exclude) {
+void ClientConnectionManager::broadcastEntityCreate(int id, const std::string &entityname, const mge::Blob &update) {
 	for (ConnectionList::iterator i = connections.begin(); i != connections.end(); ++i)
-		if (i->get() != exclude)
-			(*i)->sendEntityCreate(id, entityname, blob);
+		(*i)->sendEntityCreate(id, entityname, update);
 }
 
 void ClientConnectionManager::broadcastEntityUpdate(int id, bool full, bool remove, const mge::Blob &update) {
@@ -58,7 +57,12 @@ void ClientConnectionManager::onConnectRefused(ClientConnection *conn, const std
 
 shared_ptr<Player> ClientConnectionManager::onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg) {
 	shared_ptr<Team> team = players.findSmallestTeam();
-	shared_ptr<Player> player = players.newPlayer(nextplayerid++, username, team);
+	int id = nextplayerid++;
+	
+	boost::shared_ptr<Player> player = players.newPlayer(id, username, team);
+	
+	for (ConnectionList::iterator i = connections.begin(); i != connections.end(); ++i)
+		(*i)->sendPlayerJoined(id, team->getID(), username);
 	
 	log->log("main", INFO) << "Connection from " << conn->getIP() << " joined as '" << username << "' on team '" << team->getName() << "'" << endl;
 	
@@ -67,9 +71,11 @@ shared_ptr<Player> ClientConnectionManager::onConnect(ClientConnection *conn, co
 
 void ClientConnectionManager::onDisconnect(BaseConnection *bconn) {
 	ClientConnection *conn = static_cast<ClientConnection *>(bconn);
-	if (conn->getPlayer())
+	if (conn->getPlayer()) {
 		log->log("main", INFO) << "'" << conn->getPlayer()->getName() << "' disconnected" << endl;
-	else
+		for (ConnectionList::iterator i = connections.begin(); i != connections.end(); ++i)
+			(*i)->sendPlayerLeft(conn->getPlayer()->getID());
+	} else
 		log->log("main", INFO) << "Connection from " << conn->getIP() << " disconnected before authenticating" << endl;
 	removeLater(conn);
 }

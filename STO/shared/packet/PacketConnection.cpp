@@ -30,6 +30,8 @@ void PacketConnection::send(const Packet &packet, int chan, Message::Type type) 
 #include "EntityUpdatePacket.h"
 #include "FlightInputPacket.h"
 #include "PlayerIDPacket.h"
+#include "PlayerJoinedPacket.h"
+#include "PlayerLeftPacket.h"
 
 PacketConnection::AssembledPacketManager::AssembledPacketManager() {
 	addFactory(new BasePacketFactory<ConnectPacket, 1>());
@@ -38,6 +40,8 @@ PacketConnection::AssembledPacketManager::AssembledPacketManager() {
 	addFactory(new BasePacketFactory<EntityUpdatePacket, 4>());
 	addFactory(new BasePacketFactory<FlightInputPacket, 5>());
 	addFactory(new BasePacketFactory<PlayerIDPacket, 6>());
+	addFactory(new BasePacketFactory<PlayerIDPacket, 7>());
+	addFactory(new BasePacketFactory<PlayerLeftPacket, 8>());
 }
 
 const PacketConnection::AssembledPacketManager PacketConnection::pman;

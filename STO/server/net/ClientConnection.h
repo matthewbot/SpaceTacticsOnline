@@ -21,6 +21,8 @@ namespace sto {
 			
 			void sendEntityCreate(int id, const std::string &entityname, const mge::Blob &blob);
 			void sendEntityUpdate(int id, bool full, bool remove, const mge::Blob &update);
+			void sendPlayerJoined(int id, int teamid, const std::string &name);
+			void sendPlayerLeft(int id);
 			
 			// PlayerController
 		

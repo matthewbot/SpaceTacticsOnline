@@ -25,9 +25,9 @@ namespace sto {
 			ClientConnectionManager(PlayerList &players, mge::NetworkSystem *net, mge::Logger *log);
 			~ClientConnectionManager();
 			
-			void broadcastEntityCreate(int id, const std::string &entityname, const mge::Blob &blob, ClientConnection *exclude=NULL);
+			void broadcastEntityCreate(int id, const std::string &entityname, const mge::Blob &blob);
 			void broadcastEntityUpdate(int id, bool full, bool remove, const mge::Blob &update);
-			
+
 			void update();
 			
 			inline ConnectionIterator begin() const { return connections.begin(); }

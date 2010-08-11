@@ -7,6 +7,8 @@
 #include <STO/shared/packet/FlightInputPacket.h>
 #include <STO/shared/packet/EntityCreatePacket.h>
 #include <STO/shared/packet/EntityUpdatePacket.h>
+#include <STO/shared/packet/PlayerJoinedPacket.h>
+#include <STO/shared/packet/PlayerLeftPacket.h>
 #include <STO/version.h>
 #include <MGE/net/Connection.h>
 #include <MGE/util/Blob.h>
@@ -29,6 +31,14 @@ void ClientConnection::sendEntityCreate(int id, const std::string &entityname, c
 
 void ClientConnection::sendEntityUpdate(int id, bool full, bool remove, const mge::Blob &update) {
 	getConn().send(EntityUpdatePacket(id, full, remove, update), 2, Message::NORMAL);
+}
+
+void ClientConnection::sendPlayerJoined(int id, int teamid, const std::string &username) {
+	getConn().send(PlayerJoinedPacket(id, teamid, username), 1, Message::RELIABLE);
+}
+
+void ClientConnection::sendPlayerLeft(Player::ID id) {
+	getConn().send(PlayerLeftPacket(id), 1, Message::RELIABLE);
 }
 
 void ClientConnection::processPacket(Packet *pack) {

@@ -10,7 +10,7 @@
 #include <utility>
 
 namespace sto {
-	class PlayerListCallbacks {
+	class PlayerListCallbacks { // TODO can probably be moved to ClientConnectionManagerCallbacks
 		public:
 			virtual void playerJoined(const boost::shared_ptr<Player> &player) = 0;
 			virtual void playerLeft(const boost::shared_ptr<Player> &player) = 0;
