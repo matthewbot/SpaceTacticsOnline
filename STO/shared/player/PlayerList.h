@@ -20,14 +20,15 @@ namespace sto {
 				}
 			};
 		
+			typedef std::map<int, PlayerPtr> PlayerMap;
+			typedef std::map<int, TeamPtr> TeamMap;
 			typedef std::set<PlayerPtr, CompareByNamePtr<PlayerPtr> > PlayerSet;
-			typedef std::set<TeamPtr, CompareByNamePtr<TeamPtr> > TeamSet;
-			typedef std::map<TeamPtr, PlayerSet, CompareByNamePtr<TeamPtr> > TeamPlayersMap;
+			typedef std::map<TeamPtr, PlayerSet> TeamPlayersMap;
 			typedef std::map<PlayerPtr, TeamPtr, CompareByNamePtr<PlayerPtr> > PlayerTeamMap;
 	
 		public:	
-			typedef PlayerSet::const_iterator PlayerIterator;
-			typedef TeamSet::const_iterator TeamIterator;
+			typedef PlayerMap::const_iterator PlayerIterator;
+			typedef TeamMap::const_iterator TeamIterator;
 		
 			PlayerList();
 		
@@ -40,16 +41,17 @@ namespace sto {
 			
 			inline TeamIterator beginTeams() const { return teams.begin(); }
 			inline TeamIterator endTeams() const { return teams.end(); }
-			
-			std::pair<PlayerIterator, PlayerIterator> getPlayersByTeam(const boost::shared_ptr<Team> &team) const;
+	
+			boost::shared_ptr<Player> getPlayerById(int id);			
+			boost::shared_ptr<Team> getTeamById(int id);
 			int getPlayerCountByTeam(const boost::shared_ptr<Team> &team) const;
 			boost::shared_ptr<Team> getPlayersTeam(const boost::shared_ptr<Player> &player) const;
 					
 			boost::shared_ptr<Team> findSmallestTeam() const;
 			
 		private:
-			PlayerSet players;	
-			TeamSet teams;
+			PlayerMap players;	
+			TeamMap teams;
 			TeamPlayersMap teamplayersmap;
 			PlayerTeamMap playerteammap;
 	};

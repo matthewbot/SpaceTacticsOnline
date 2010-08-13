@@ -117,3 +117,12 @@ void ClientGameState::onUpdateEntity(int id, const mge::Blob &data, bool isfull)
 	Blob data_copy = data;
 	serial->deserialize(data_copy, isfull);
 }
+
+void ClientGameState::onPlayerJoined(int id, int teamid, const std::string &username) {
+	players.newPlayer(id, username, players.getTeamById(teamid));
+}
+
+void ClientGameState::onPlayerLeft(int id) {
+	players.removePlayer(players.getPlayerById(id));
+}
+

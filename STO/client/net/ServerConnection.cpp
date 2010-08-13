@@ -5,6 +5,8 @@
 #include <STO/shared/packet/FlightInputPacket.h>
 #include <STO/shared/packet/EntityCreatePacket.h>
 #include <STO/shared/packet/EntityUpdatePacket.h>
+#include <STO/shared/packet/PlayerJoinedPacket.h>
+#include <STO/shared/packet/PlayerLeftPacket.h>
 #include <STO/version.h>
 #include <boost/scoped_ptr.hpp>
 #include <sstream>
@@ -49,6 +51,10 @@ void ServerConnection::processPacket(Packet *pack) {
 				callbacks.onCreateEntity(ecpack->getEntityID(), ecpack->getEntityName(), ecpack->getUpdateBlob());
 			} else if (EntityUpdatePacket *eupack = dynamic_cast<EntityUpdatePacket *>(pack)) {
 				callbacks.onUpdateEntity(eupack->getEntityID(), eupack->getUpdateBlob(), eupack->isFullUpdate());
+			} else if (PlayerJoinedPacket *pjpack = dynamic_cast<PlayerJoinedPacket *>(pack)) {
+				callbacks.onPlayerJoined(pjpack->getID(), pjpack->getTeamID(), pjpack->getUsername());
+			} else if (PlayerLeftPacket *plpack = dynamic_cast<PlayerLeftPacket *>(pack)) {
+				callbacks.onPlayerLeft(plpack->getID());
 			}
 			
 		default:

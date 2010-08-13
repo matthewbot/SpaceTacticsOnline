@@ -16,6 +16,8 @@ namespace sto {
             
             virtual void onCreateEntity(int id, const std::string &name, const mge::Blob &update) = 0;
             virtual void onUpdateEntity(int id, const mge::Blob &update, bool isfullupdate) = 0;
+            virtual void onPlayerJoined(int id, int teamid, const std::string &username) = 0;
+            virtual void onPlayerLeft(int id) = 0;
     };
 }
 

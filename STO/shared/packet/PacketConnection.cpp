@@ -40,7 +40,7 @@ PacketConnection::AssembledPacketManager::AssembledPacketManager() {
 	addFactory(new BasePacketFactory<EntityUpdatePacket, 4>());
 	addFactory(new BasePacketFactory<FlightInputPacket, 5>());
 	addFactory(new BasePacketFactory<PlayerIDPacket, 6>());
-	addFactory(new BasePacketFactory<PlayerIDPacket, 7>());
+	addFactory(new BasePacketFactory<PlayerJoinedPacket, 7>());
 	addFactory(new BasePacketFactory<PlayerLeftPacket, 8>());
 }
 
