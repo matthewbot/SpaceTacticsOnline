@@ -1,16 +1,16 @@
-#ifndef STO_SHARED_BASECONNECTION_H
-#define STO_SHARED_BASECONNECTION_H
+#ifndef STO_SHARED_BASECLIENTSERVER_H
+#define STO_SHARED_BASECLIENTSERVER_H
 
-#include "BaseConnectionCallbacks.h"
+#include "BaseClientServerCallbacks.h"
 #include <STO/shared/packet/PacketConnection.h>
 #include <string>
 #include <memory>
 
 namespace sto {
-	class BaseConnection {
+	class BaseClientServer {
 		public:
-			BaseConnection(BaseConnectionCallbacks &callbacks);
-			inline ~BaseConnection() { disconnect(); }
+			BaseClientServer(BaseClientServerCallbacks &callbacks);
+			inline ~BaseClientServer() { disconnect(); }
 			
 			void update();
 		
@@ -37,7 +37,7 @@ namespace sto {
 		private:
 			std::auto_ptr<PacketConnection> conn;
 			std::string errmsg;
-			BaseConnectionCallbacks &callbacks;
+			BaseClientServerCallbacks &callbacks;
 	};
 }
 

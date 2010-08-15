@@ -2,12 +2,12 @@
 #define STO_CLIENT_SERVERCONNECTION_H
 
 #include "ServerConnectionCallbacks.h"
-#include <STO/shared/net/BaseConnection.h>
+#include <STO/shared/net/BaseClientServer.h>
 #include <STO/shared/input/FlightInput.h>
 #include <string>
 
 namespace sto {
-	class ServerConnection : public BaseConnection {
+	class ServerConnection : public BaseClientServer {
 		public:
 			ServerConnection(ServerConnectionCallbacks &callbacks);
 			

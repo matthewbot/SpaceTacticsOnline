@@ -17,7 +17,7 @@ using namespace boost;
 using namespace std;
 
 ServerConnection::ServerConnection(ServerConnectionCallbacks &callbacks) 
-: BaseConnection(callbacks), playerid(0), callbacks(callbacks) {
+: BaseClientServer(callbacks), playerid(0), callbacks(callbacks) {
 
 }
 

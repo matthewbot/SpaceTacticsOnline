@@ -2,7 +2,7 @@
 #define STO_SERVER_CLIENTCONNECTION_H
 
 #include <STO/shared/input/FlightInput.h>
-#include <STO/shared/net/BaseConnection.h>
+#include <STO/shared/net/BaseClientServer.h>
 #include <boost/smart_ptr.hpp>
 
 namespace mge {
@@ -13,7 +13,7 @@ namespace sto {
 	class Player;
 	class ClientConnectionCallbacks;
 
-	class ClientConnection : public BaseConnection {
+	class ClientConnection : public BaseClientServer {
 		public:
 			ClientConnection(ClientConnectionCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn);
 			

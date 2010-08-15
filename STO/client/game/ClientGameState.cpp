@@ -89,11 +89,11 @@ void ClientGameState::onConnect() {
 	systems.log->log("main", INFO) << "Connected to server" << endl;
 }
 
-void ClientGameState::onError(BaseConnection *conn, const string &error) {
+void ClientGameState::onError(BaseClientServer *conn, const string &error) {
 	systems.log->log("main", INFO) << "Connection error: " << error << endl;
 }
 
-void ClientGameState::onDisconnect(BaseConnection *conn) {
+void ClientGameState::onDisconnect(BaseClientServer *conn) {
 	systems.log->log("main", INFO) << "Disconnected from server" << endl;
 }
 

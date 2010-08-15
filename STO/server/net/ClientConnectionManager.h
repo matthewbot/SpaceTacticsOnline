@@ -37,8 +37,8 @@ namespace sto {
 			
 			virtual void onConnectRefused(ClientConnection *conn, const std::string &reason);
 			virtual boost::shared_ptr<Player> onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg);
-			virtual void onDisconnect(BaseConnection *conn);
-			virtual void onError(BaseConnection *conn, const std::string &error);
+			virtual void onDisconnect(BaseClientServer *conn);
+			virtual void onError(BaseClientServer *conn, const std::string &error);
 			
 		private:
 			void removeLater(ClientConnection *conn);

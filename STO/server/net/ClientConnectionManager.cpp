@@ -69,7 +69,7 @@ shared_ptr<Player> ClientConnectionManager::onConnect(ClientConnection *conn, co
 	return player;
 }
 
-void ClientConnectionManager::onDisconnect(BaseConnection *bconn) {
+void ClientConnectionManager::onDisconnect(BaseClientServer *bconn) {
 	ClientConnection *conn = static_cast<ClientConnection *>(bconn);
 	if (conn->getPlayer()) {
 		log->log("main", INFO) << "'" << conn->getPlayer()->getName() << "' disconnected" << endl;
@@ -80,7 +80,7 @@ void ClientConnectionManager::onDisconnect(BaseConnection *bconn) {
 	removeLater(conn);
 }
 
-void ClientConnectionManager::onError(BaseConnection *bconn, const std::string &msg) {
+void ClientConnectionManager::onError(BaseClientServer *bconn, const std::string &msg) {
 	ClientConnection *conn = static_cast<ClientConnection *>(bconn);
 	log->log("main", INFO) << "'" << conn->getPlayer()->getName() << "' disconnected due to error: " << msg << endl;
 	removeLater(conn);

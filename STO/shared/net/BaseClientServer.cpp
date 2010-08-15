@@ -1,4 +1,4 @@
-#include "BaseConnection.h"
+#include "BaseClientServer.h"
 #include <boost/scoped_ptr.hpp>
 
 using namespace sto;
@@ -6,15 +6,15 @@ using namespace mge;
 using namespace boost;
 using namespace std;
 
-BaseConnection::BaseConnection(BaseConnectionCallbacks &callbacks) : state(DISCONNECTED), callbacks(callbacks) {
+BaseClientServer::BaseClientServer(BaseClientServerCallbacks &callbacks) : state(DISCONNECTED), callbacks(callbacks) {
 }
 
-void BaseConnection::setConn(PacketConnection *newconn) {
+void BaseClientServer::setConn(PacketConnection *newconn) {
 	conn = auto_ptr<PacketConnection>(newconn);
 	state = ESTABLISHING;
 }
 
-void BaseConnection::update() {
+void BaseClientServer::update() {
 	if (!hasConn())
 		return;
 
@@ -44,9 +44,9 @@ void BaseConnection::update() {
 	}
 }
 
-void BaseConnection::connectionEstablished() { }
+void BaseClientServer::connectionEstablished() { }
 
-void BaseConnection::disconnect() {
+void BaseClientServer::disconnect() {
 	if (state == DISCONNECTED || state == ERROR)
 		return;
 
@@ -58,7 +58,7 @@ void BaseConnection::disconnect() {
 	conn.reset();
 }
 
-void BaseConnection::setError(const std::string &msg) {
+void BaseClientServer::setError(const std::string &msg) {
 	if (conn.get() && conn->getState() == Connection::CONNECTED)
 		conn->disconnect();
 		
@@ -68,7 +68,7 @@ void BaseConnection::setError(const std::string &msg) {
 	conn.reset();
 }
 
-string BaseConnection::stateToString(BaseConnection::State state) {
+string BaseClientServer::stateToString(BaseClientServer::State state) {
 	switch (state) {
 		case ESTABLISHING:
 			return "establishing";

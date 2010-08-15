@@ -50,8 +50,8 @@ namespace sto {
 			// --- ServerConnectionCallback ---
 			
 			virtual void onConnect();
-			virtual void onDisconnect(BaseConnection *conn);
-            virtual void onError(BaseConnection *conn, const std::string &error);
+			virtual void onDisconnect(BaseClientServer *conn);
+            virtual void onError(BaseClientServer *conn, const std::string &error);
             virtual void onCreateEntity(int id, const std::string &name, const mge::Blob &update);
             virtual void onUpdateEntity(int id, const mge::Blob &update, bool isfull);
             virtual void onPlayerJoined(int id, int teamid, const std::string &username);
