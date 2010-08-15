@@ -1,5 +1,5 @@
-#include "ClientConnection.h"
-#include "ClientConnectionCallbacks.h"
+#include "Client.h"
+#include "ClientCallbacks.h"
 #include <STO/shared/player/Player.h>
 #include <STO/shared/packet/ConnectPacket.h>
 #include <STO/shared/packet/ConnectRefusedPacket.h>
@@ -19,29 +19,29 @@ using namespace mge;
 using namespace boost;
 using namespace std;
 
-ClientConnection::ClientConnection(ClientConnectionCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn) 
+Client::Client(ClientCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn) 
 : BaseClientServer(callbacks), callbacks(callbacks) {
 	setConn(new PacketConnection(conn));
 	state = CONNECTING;
 }
 
-void ClientConnection::sendEntityCreate(int id, const std::string &entityname, const mge::Blob &update) {
+void Client::sendEntityCreate(int id, const std::string &entityname, const mge::Blob &update) {
 	getConn().send(EntityCreatePacket(id, entityname, update), 1, Message::RELIABLE);
 }
 
-void ClientConnection::sendEntityUpdate(int id, bool full, bool remove, const mge::Blob &update) {
+void Client::sendEntityUpdate(int id, bool full, bool remove, const mge::Blob &update) {
 	getConn().send(EntityUpdatePacket(id, full, remove, update), 2, Message::NORMAL);
 }
 
-void ClientConnection::sendPlayerJoined(int id, int teamid, const std::string &username) {
+void Client::sendPlayerJoined(int id, int teamid, const std::string &username) {
 	getConn().send(PlayerJoinedPacket(id, teamid, username), 1, Message::RELIABLE);
 }
 
-void ClientConnection::sendPlayerLeft(Player::ID id) {
+void Client::sendPlayerLeft(Player::ID id) {
 	getConn().send(PlayerLeftPacket(id), 1, Message::RELIABLE);
 }
 
-void ClientConnection::processPacket(Packet *pack) {
+void Client::processPacket(Packet *pack) {
 	switch (getConn().getState()) {
 		case CONNECTING:
 			if (ConnectPacket *connpack = dynamic_cast<ConnectPacket *>(pack)) {
@@ -72,11 +72,11 @@ void ClientConnection::processPacket(Packet *pack) {
 	}
 }
 
-void ClientConnection::sendChatMessage(const Player &from, const string &msg) {
+void Client::sendChatMessage(const Player &from, const string &msg) {
 	// TODO
 }
 
-FlightInput ClientConnection::getFlightInput() {
+FlightInput Client::getFlightInput() {
 	return latestinput;
 }
 

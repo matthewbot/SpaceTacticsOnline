@@ -1,7 +1,7 @@
 #ifndef STO_SERVER_SERVERGAMESTATE_H
 #define STO_SERVER_SERVERGAMESTATE_H
 
-#include <STO/server/net/ClientConnectionManager.h>
+#include <STO/server/net/ClientManager.h>
 #include <STO/server/main/ServerStateSystems.h>
 #include <STO/shared/entity/EntityContainer.h>
 #include <STO/shared/player/PlayerList.h>
@@ -25,7 +25,7 @@ namespace sto {
 		private:
 			ServerStateSystems systems;
 			PlayerList players;
-			ClientConnectionManager connections;
+			ClientManager connections;
 			
 			EntityContainer entities;
 			typedef std::map<int, boost::weak_ptr<SerializeComponent> > SerializeEntityMap;

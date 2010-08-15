@@ -1,15 +1,15 @@
-#ifndef STO_CLIENT_SERVERCONNECTION_H
-#define STO_CLIENT_SERVERCONNECTION_H
+#ifndef STO_CLIENT_Server_H
+#define STO_CLIENT_Server_H
 
-#include "ServerConnectionCallbacks.h"
+#include "ServerCallbacks.h"
 #include <STO/shared/net/BaseClientServer.h>
 #include <STO/shared/input/FlightInput.h>
 #include <string>
 
 namespace sto {
-	class ServerConnection : public BaseClientServer {
+	class Server : public BaseClientServer {
 		public:
-			ServerConnection(ServerConnectionCallbacks &callbacks);
+			Server(ServerCallbacks &callbacks);
 			
 			void connect(const boost::shared_ptr<mge::Connection> &conn, const std::string &username);
 			void sendFlightInput(const FlightInput &input);
@@ -24,7 +24,7 @@ namespace sto {
 			std::string username;
 			int playerid;
 			
-			ServerConnectionCallbacks &callbacks;
+			ServerCallbacks &callbacks;
 	};
 }
 

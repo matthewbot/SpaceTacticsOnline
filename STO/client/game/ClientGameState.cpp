@@ -58,7 +58,7 @@ GameStateStatus ClientGameState::update() {
 		stringstream buf;
 		buf << "FPS: " << systems.gfx->getTimer().getFPS() << " ";
 		buf << systems.gfx->getStats() << " ";
-		buf << "State: " << ServerConnection::stateToString(serverconn.getState());
+		buf << "State: " << Server::stateToString(serverconn.getState());
 		
 		debugfont->render(disp, 0, disp.getHeight()-debugfont->getLineHeight(), buf.str());
 	}

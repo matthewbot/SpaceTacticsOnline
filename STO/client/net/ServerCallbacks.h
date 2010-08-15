@@ -1,5 +1,5 @@
-#ifndef STO_CLIENT_SERVERCONNECTIONCALLBACKS_H
-#define STO_CLIENT_SERVERCONNECTIONCALLBACKS_H
+#ifndef STO_CLIENT_SERVERCALLBACKS_H
+#define STO_CLIENT_SERVERCALLBACKS_H
 
 #include <STO/shared/net/BaseClientServerCallbacks.h>
 #include <STO/shared/packet/Packet.h>
@@ -8,9 +8,9 @@
 #include <string>
 
 namespace sto {
-    class ServerConnectionCallbacks : public BaseClientServerCallbacks {
+    class ServerCallbacks : public BaseClientServerCallbacks {
         public:
-            inline virtual ~ServerConnectionCallbacks() { }
+            inline virtual ~ServerCallbacks() { }
             
             virtual void onConnect() = 0;
             

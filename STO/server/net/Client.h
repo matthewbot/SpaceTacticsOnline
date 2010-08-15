@@ -1,5 +1,5 @@
-#ifndef STO_SERVER_CLIENTCONNECTION_H
-#define STO_SERVER_CLIENTCONNECTION_H
+#ifndef STO_SERVER_CLIENT_H
+#define STO_SERVER_CLIENT_H
 
 #include <STO/shared/input/FlightInput.h>
 #include <STO/shared/net/BaseClientServer.h>
@@ -11,11 +11,11 @@ namespace mge {
 
 namespace sto {
 	class Player;
-	class ClientConnectionCallbacks;
+	class ClientCallbacks;
 
-	class ClientConnection : public BaseClientServer {
+	class Client : public BaseClientServer {
 		public:
-			ClientConnection(ClientConnectionCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn);
+			Client(ClientCallbacks &callbacks, const boost::shared_ptr<mge::Connection> &conn);
 			
 			inline const boost::shared_ptr<Player> &getPlayer() { return player; }
 			
@@ -32,7 +32,7 @@ namespace sto {
 		protected:
 			virtual void processPacket(Packet *packet);
 		private:
-			ClientConnectionCallbacks &callbacks;
+			ClientCallbacks &callbacks;
 			FlightInput latestinput;
 			boost::shared_ptr<Player> player;
 	};

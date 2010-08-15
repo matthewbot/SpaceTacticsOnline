@@ -1,4 +1,4 @@
-#include "ServerConnection.h"
+#include "Server.h"
 #include <STO/shared/packet/ConnectPacket.h>
 #include <STO/shared/packet/PlayerIDPacket.h>
 #include <STO/shared/packet/ConnectRefusedPacket.h>
@@ -16,23 +16,23 @@ using namespace mge;
 using namespace boost;
 using namespace std;
 
-ServerConnection::ServerConnection(ServerConnectionCallbacks &callbacks) 
+Server::Server(ServerCallbacks &callbacks) 
 : BaseClientServer(callbacks), playerid(0), callbacks(callbacks) {
 
 }
 
-void ServerConnection::connect(const shared_ptr<Connection> &conn, const string &newusername) {
+void Server::connect(const shared_ptr<Connection> &conn, const string &newusername) {
     setConn(new PacketConnection(conn));
 	username = newusername;
 	state = ESTABLISHING;
 }
 
-void ServerConnection::connectionEstablished() {
+void Server::connectionEstablished() {
 	state = CONNECTING;
 	getConn().send(ConnectPacket(STO_VERSION_STRING, username, STO_AUTHORIZE_MESSAGE), 1, Message::RELIABLE);
 }
 
-void ServerConnection::processPacket(Packet *pack) {
+void Server::processPacket(Packet *pack) {
 	switch (state) {
 		case CONNECTING:
 			if (PlayerIDPacket *pidpack = dynamic_cast<PlayerIDPacket *>(pack)) {
@@ -62,7 +62,7 @@ void ServerConnection::processPacket(Packet *pack) {
 	}
 }
 
-void ServerConnection::sendFlightInput(const FlightInput &input) {
+void Server::sendFlightInput(const FlightInput &input) {
     getConn().send(FlightInputPacket(input), 0, Message::NORMAL);
 }
 

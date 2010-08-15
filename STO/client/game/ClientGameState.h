@@ -2,8 +2,8 @@
 #define STO_CLIENT_CLIENTGAMESTATE_H
 
 #include "PlayerEntityHolder.h"
-#include <STO/client/net/ServerConnection.h>
-#include <STO/client/net/ServerConnectionCallbacks.h>
+#include <STO/client/net/Server.h>
+#include <STO/client/net/ServerCallbacks.h>
 #include <STO/client/main/ClientStateSystems.h>
 #include <STO/shared/entity/EntityContainer.h>
 #include <STO/shared/serial/SerializeComponent.h>
@@ -23,7 +23,7 @@ namespace sto {
 	class RenderComponentSystem;
 	class FlightInput;
 
-	class ClientGameState : public mge::GameState, private ServerConnectionCallbacks {
+	class ClientGameState : public mge::GameState, private ServerCallbacks {
 		public:
 			ClientGameState(const ClientStateSystems &systems);
 			~ClientGameState();
@@ -42,12 +42,12 @@ namespace sto {
 			boost::shared_ptr<RenderComponentSystem> rendersys;
 			PlayerEntityHolder player;
 			
-			ServerConnection serverconn;
+			Server serverconn;
 			PlayerList players;
 			
 			boost::shared_ptr<mge::Font> debugfont;
 			
-			// --- ServerConnectionCallback ---
+			// --- ServerCallback ---
 			
 			virtual void onConnect();
 			virtual void onDisconnect(BaseClientServer *conn);

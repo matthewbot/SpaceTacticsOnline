@@ -1,7 +1,7 @@
-#ifndef STO_SERVER_CLIENTCONNECTIONLIST_H
-#define STO_SERVER_CLIENTCONNECTIONLIST_H
+#ifndef STO_SERVER_CLIENTMANAGER_H
+#define STO_SERVER_CLIENTMANAGER_H
 
-#include "ClientConnectionCallbacks.h"
+#include "ClientCallbacks.h"
 #include <boost/shared_ptr.hpp>
 #include <list>
 #include <vector>
@@ -14,16 +14,16 @@ namespace mge {
 
 namespace sto {
 	class PlayerList;
-	class ClientConnection;
+	class Client;
 
-	class ClientConnectionManager : public ClientConnectionCallbacks {
-		typedef std::list<boost::shared_ptr<ClientConnection> > ConnectionList;
+	class ClientManager : public ClientCallbacks {
+		typedef std::list<boost::shared_ptr<Client> > ConnectionList;
 	
 		public:
 			typedef ConnectionList::const_iterator ConnectionIterator;
 		
-			ClientConnectionManager(PlayerList &players, mge::NetworkSystem *net, mge::Logger *log);
-			~ClientConnectionManager();
+			ClientManager(PlayerList &players, mge::NetworkSystem *net, mge::Logger *log);
+			~ClientManager();
 			
 			void broadcastEntityCreate(int id, const std::string &entityname, const mge::Blob &blob);
 			void broadcastEntityUpdate(int id, bool full, bool remove, const mge::Blob &update);
@@ -33,22 +33,22 @@ namespace sto {
 			inline ConnectionIterator begin() const { return connections.begin(); }
 			inline ConnectionIterator end() const { return connections.end(); }
 			
-			// ClientConnectionCallbacks
+			// ClientCallbacks
 			
-			virtual void onConnectRefused(ClientConnection *conn, const std::string &reason);
-			virtual boost::shared_ptr<Player> onConnect(ClientConnection *conn, const std::string &version, const std::string &username, const std::string &authmsg);
+			virtual void onConnectRefused(Client *conn, const std::string &reason);
+			virtual boost::shared_ptr<Player> onConnect(Client *conn, const std::string &version, const std::string &username, const std::string &authmsg);
 			virtual void onDisconnect(BaseClientServer *conn);
 			virtual void onError(BaseClientServer *conn, const std::string &error);
 			
 		private:
-			void removeLater(ClientConnection *conn);
+			void removeLater(Client *conn);
 		
 			PlayerList &players;
 			mge::NetworkSystem *net;
 			mge::Logger *log;
 		
 			ConnectionList connections;
-			std::vector<ClientConnection *> connections_remove;
+			std::vector<Client *> connections_remove;
 			int nextplayerid;
 	};
 }
