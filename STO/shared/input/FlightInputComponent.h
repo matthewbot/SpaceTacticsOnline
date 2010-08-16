@@ -5,17 +5,20 @@
 
 namespace sto {
 	class ThrusterComponent;
+	class PositionComponent;
 	class FlightInput;
 
 	class FlightInputComponent : public EntityComponent {
 		public:
-			FlightInputComponent(ThrusterComponent &thrust); // will need references to guns and the like
+			FlightInputComponent(ThrusterComponent &thrust, const PositionComponent &centerpos); // will need references to guns and the like
 			~FlightInputComponent();
 			
 			void gotInput(const FlightInput &input);
+			const PositionComponent &getCenterPos() { return centerpos; }
 			
 		private:
 			ThrusterComponent &thrust;
+			const PositionComponent &centerpos;
 	};
 }
 

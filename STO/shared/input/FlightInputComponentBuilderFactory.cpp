@@ -14,6 +14,7 @@ EntityComponentBuilder *FlightInputComponentBuilderFactory::makeComponentBuilder
 		return NULL;
 		
 	string thrustname = node.getString("thruster_c");
+	string centerposname = node.getString("centerpos_c");
 	
-	return new FlightInputComponentBuilder(name, thrustname);
+	return new FlightInputComponentBuilder(name, thrustname, centerposname);
 }

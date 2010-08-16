@@ -7,7 +7,7 @@
 namespace sto {
 	class FlightInputComponentBuilder : public EntityComponentBuilder {
 		public:
-			FlightInputComponentBuilder(const std::string &name, const std::string &thrustname);
+			FlightInputComponentBuilder(const std::string &name, const std::string &thrustname, const std::string &centerposname);
 			~FlightInputComponentBuilder();
 			
 			virtual NamedComponent makeComponent(const ComponentMap &components, const ComponentSystemMap &compsystems);
@@ -15,6 +15,7 @@ namespace sto {
 		private:
 			std::string name;
 			std::string thrustname;
+			std::string centerposname;
 	
 	};
 }

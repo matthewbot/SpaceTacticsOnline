@@ -4,7 +4,8 @@
 
 using namespace sto;
 
-FlightInputComponent::FlightInputComponent(ThrusterComponent &thrust) : thrust(thrust) { }
+FlightInputComponent::FlightInputComponent(ThrusterComponent &thrust, const PositionComponent &centerpos)
+: thrust(thrust), centerpos(centerpos) { }
 FlightInputComponent::~FlightInputComponent() { }
 
 void FlightInputComponent::gotInput(const FlightInput &input) {

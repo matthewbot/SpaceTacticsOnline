@@ -6,7 +6,8 @@ ent_ship_base {
 	}
 	
 	spr_main {
-		type sprite
+		type sprite
+
 		position_c pos_main
 		render_s ships
 	}
@@ -30,6 +31,7 @@ ent_ship_base {
 		type input
 		
 		thruster_c thrust_main
+		centerpos_c pos_main
 	}
 	
 	serial_main {
